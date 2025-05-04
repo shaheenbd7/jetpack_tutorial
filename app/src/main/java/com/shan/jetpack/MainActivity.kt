@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -38,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.height(16.dp)) // Add space between components
                         RowExample()
                         Spacer(modifier = Modifier.height(16.dp)) // Add space between components
-//                        BoxExample()
+                        BoxExample()
                     }
                 }
             }
@@ -58,7 +60,8 @@ fun ColumnExample() {
 
 @Composable
 fun RowExample() {
-    Row {
+    Row(modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween) {
         Text("Left")
         Spacer(modifier = Modifier.padding(horizontal = 20.dp))
         Text("Right")
@@ -67,10 +70,16 @@ fun RowExample() {
 
 @Composable
 fun BoxExample() {
-    Box {
-        Text("Bottom Layer")
-        Spacer(modifier = Modifier.padding(20.dp))
-        Text("Top Layer", modifier = Modifier.align(Alignment.Center))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Text("Bottom Layer") // Top-start by default
+        Text(
+            "Top Layer",
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }
 
