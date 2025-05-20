@@ -35,6 +35,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.shan.jetpack.ui.theme.JetpackTheme
 
 class MainActivity : ComponentActivity() {
@@ -57,10 +61,35 @@ class MainActivity : ComponentActivity() {
 //                        Spacer(Modifier.padding(20.dp))
 //                        PasswordInputExample()
 //                        Spacer(Modifier.padding(20.dp))
-                        LoginForm()
+//                        LoginForm()
+//                        LoginScreen()
+                        AppNavigator()
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun AppNavigator() {
+    val navController = rememberNavController()
+    val loginViewModel: LoginViewModel = viewModel()
+
+    NavHost(navController = navController, startDestination = Screen.Login.route) {
+        composable(Screen.Login.route) {
+            LoginScreen(
+                viewModel = loginViewModel,
+                onLoginSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
+        composable(Screen.Home.route) {
+            HomeScreen(viewModel = loginViewModel)
         }
     }
 }
